@@ -1,0 +1,26 @@
+name: Build And Test the source code
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: build_and_run_ut
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: Instal prerequisites
+        run: sudo apt-get install -y build-essential cmake
+      - name: build
+        run: mkdir build && cd build && cmake .. && cmake --build . && ./app/myAwesomeApp
+      - name: run ut tests
+        run:  ./build/lib/ut/lib_tests
+      
